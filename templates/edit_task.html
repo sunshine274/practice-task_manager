@@ -14,16 +14,22 @@
           class="validate"
           required
         >
-          <option value="" disabled selected>Choose category</option>
+          <option value="{{ task.task_name }}" selected>Choose category</option>
           {% for category in categories %}
-          <option value="{{ category.category_name }}">
-            {{ category.category_name }}
+          {% if category.category_name == task.category_name %}
+          <option value="{{ category.category_name }}" selected> {{ category.category_name }}
           </option>
+          {% else %}
+          <option value="{{ category.category_name }}"> {{ category.category_name }}
+          </option>
+          {% endif %}
+           
           {% endfor %}
         </select>
         <label for="category_name">Task Category</label>
       </div>
     </div>
+    <!--task name-->
     <div class="row">
       <div class="input-field col s12">
         <i class="fas fa-pencil-alt prefix light-blue-text text-darken-4"></i>
@@ -32,11 +38,12 @@
           name="task_name"
           minlength="5"
           maxlength="50"
+          value="{{ task.task_name }}"
           type="text"
           class="validate"
           required
         />
-        <label for="icon_prefix">Task Name</label>
+        <label for="task_name">Task Name</label>
       </div>
     </div>
     <div class="row">
@@ -49,7 +56,7 @@
           maxlength="200"
           class="materialize-textarea validate"
           required
-        ></textarea>
+        >{{- task.task_description -}}</textarea>
         <label for="task_description">Task Description</label>
       </div>
     </div>
@@ -84,6 +91,10 @@
     <!-- submit button-->
     <div class="row">
       <div class="col s12 center-align">
+      <!-- cancel button -->
+                    <a href="{{ url_for('get_tasks') }}" class="btn-large red text-shadow">
+                        Cancel <i class="fas fa-times-circle right"></i>
+                    </a>
         <button type="submit" class="btn-large light-blue darken-1 text-shadow">
           Edit Task <i class="fas fa-edit right"></i>
         </button>
